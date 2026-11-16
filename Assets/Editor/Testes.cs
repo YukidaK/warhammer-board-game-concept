@@ -108,6 +108,7 @@ public static class Testes
         etapa = "abrindo";
         inicioCombo = EditorApplication.timeSinceStartup;
         EditorSceneManager.OpenScene("Assets/Scenes/Batalha.unity");
+        EditorSceneManager.playModeStartScene = null;   // começa na Batalha, não no Menu
         EditorApplication.EnterPlaymode();
     }
 

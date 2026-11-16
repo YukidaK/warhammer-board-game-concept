@@ -53,8 +53,7 @@ chmod +x KillTeamTatico.x86_64
    ```bash
    ~/Unity/Hub/Editor/6000.5.8f1/Editor/Unity -projectPath ~/Downloads/warhammer-board-game-concept
    ```
-2. Abra a cena `Assets/Scenes/Menu.unity` (ou `Batalha.unity` direto, com Harakoni contra Harakoni).
-3. Aperte **Play**.
+2. Aperte **Play** e abra a aba **Game**. O script `Assets/Editor/CenaInicial.cs` define `Assets/Scenes/Menu.unity` como cena inicial do Play, mesmo quando outra cena está aberta no editor. Essa configuração acompanha o repositório, sem depender das preferências locais. Para testar a batalha direto (Harakoni contra Harakoni), abra `Batalha.unity` e mude a cena inicial nesse script.
 
 ### Gerar o executável de novo
 

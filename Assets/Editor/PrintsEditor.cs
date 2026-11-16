@@ -117,6 +117,7 @@ public static class PrintsEditor
                 if (temporario != null) Object.DestroyImmediate(temporario);
                 var anim = Resources.FindObjectsOfTypeAll(typeof(EditorWindow).Assembly.GetType("UnityEditor.AnimationWindow"));
                 foreach (var w in anim) ((EditorWindow)w).Close();
+                EditorSceneManager.playModeStartScene = null;   // começa na Batalha, não no Menu
                 EditorApplication.EnterPlaymode();
                 passo = 8;
                 marca = EditorApplication.timeSinceStartup + 10;

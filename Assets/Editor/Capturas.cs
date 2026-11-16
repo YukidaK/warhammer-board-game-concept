@@ -35,6 +35,7 @@ public static class Capturas
         inicio = EditorApplication.timeSinceStartup;
         EditorApplication.update -= Passo;
         EditorApplication.update += Passo;
+        EditorSceneManager.playModeStartScene = null;   // começa na Batalha, não no Menu
         EditorApplication.EnterPlaymode();
     }
 
