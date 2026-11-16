@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4918e9b346061838fadab6dd41d94a34, type: 3}
+  m_Name: ColmeiaEmRuinas
+  m_EditorClassIdentifier: Assembly-CSharp::Cenario
+  nome: "Colmeia em Ru\xEDnas"
+  descricao: "Quarteir\xE3o residencial bombardeado: salas sem teto, torres partidas
+    e barricadas de sucata."
+  muros:
+  - {fileID: 4749747285515857643, guid: 4d7a0a73546586ea1ace1181fe337ef5, type: 3}
+  - {fileID: 5541543725551081192, guid: 73a48c732af98b090b32fda50fe93de3, type: 3}
+  - {fileID: 3921629485269845735, guid: 4e45190af334cb96390c3ccc4f0a044e, type: 3}
+  meiaCobertura:
+  - {fileID: 8153662714640141898, guid: 685809a228904353e8c3067c0018b6e3, type: 3}
+  - {fileID: 6208493919153203466, guid: eba3547676df5ad6a90ca41388095f99, type: 3}
+  - {fileID: 9107849782595351095, guid: 7730d96520ef70518840d1adb444cf56, type: 3}
+  - {fileID: 5214697207287586975, guid: ec9bbb13346b54bb5bbf1742d0617d63, type: 3}
+  marcos:
+  - prefab: {fileID: 6515146878146497494, guid: 297552ea5e96be90b804c03570c322d7, type: 3}
+    tamanho: {x: 2, y: 4}
+  - prefab: {fileID: 379299719170473452, guid: 22ff706c3308ab73cb9693b601046355, type: 3}
+    tamanho: {x: 2, y: 4}
+  - prefab: {fileID: 274907531858495582, guid: 96b1bdaa9f53abb64bd16774dc10403c, type: 3}
+    tamanho: {x: 2, y: 4}
+  - prefab: {fileID: 2042602779624628513, guid: 2bf57e6f9c914aa71af643e1e6499715, type: 3}
+    tamanho: {x: 2, y: 4}
+  - prefab: {fileID: 4148721414539855489, guid: 450180b88072a531b8d6104a33b40e55, type: 3}
+    tamanho: {x: 3, y: 3}
+  - prefab: {fileID: 9211434053468467845, guid: f5f799bad357fe4f693bc5d8b3348957, type: 3}
+    tamanho: {x: 3, y: 3}
+  - prefab: {fileID: 6596010429972178242, guid: 4cf316266440547a0ae75b92c77f7cb1, type: 3}
+    tamanho: {x: 2, y: 4}
+  decoracao:
+  - {fileID: 4679722298990572296, guid: 9eacabe6b229f6436917c82d79bfa960, type: 3}
+  - {fileID: 6596010429972178242, guid: 4cf316266440547a0ae75b92c77f7cb1, type: 3}
+  - {fileID: 4148721414539855489, guid: 450180b88072a531b8d6104a33b40e55, type: 3}
+  - {fileID: 379299719170473452, guid: 22ff706c3308ab73cb9693b601046355, type: 3}
+  - {fileID: 2042602779624628513, guid: 2bf57e6f9c914aa71af643e1e6499715, type: 3}
+  matMuro: {fileID: 2100000, guid: d90a64f6548f2951981fe8aa145f44ef, type: 2}
+  matMeia: {fileID: 2100000, guid: eff3a032fbaad85fabff7bbb403e94ca, type: 2}
+  matChaoA: {fileID: 2100000, guid: 7f5d32efb5545b7eea75c830fe8a5243, type: 2}
+  matChaoB: {fileID: 2100000, guid: 9635352a25c03f1dda0d97e9128bb25a, type: 2}
+  matTerreno: {fileID: 2100000, guid: 52b0abe9a52a0782194a2109ceb87ff9, type: 2}
+  escalaDecoracao: 1
+  neblina: {r: 0.17, g: 0.15, b: 0.14, a: 1}
+  retrato: {fileID: 0}

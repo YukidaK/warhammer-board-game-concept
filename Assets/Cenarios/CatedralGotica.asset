@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4918e9b346061838fadab6dd41d94a34, type: 3}
+  m_Name: CatedralGotica
+  m_EditorClassIdentifier: Assembly-CSharp::Cenario
+  nome: "Catedral G\xF3tica"
+  descricao: "Jardim de um santu\xE1rio em ru\xEDnas: capelas com est\xE1tuas, torres
+    e muros com bras\xF5es."
+  muros:
+  - {fileID: 7458251494739447031, guid: 1478ec360dad13d308b0deb05151cba8, type: 3}
+  - {fileID: 3906160774862025422, guid: 9dc105d25c34c3c62a68fcde1c635d86, type: 3}
+  - {fileID: 2409932327062595525, guid: eb1974e7aaf879e1ead5f7deb7c91be5, type: 3}
+  meiaCobertura:
+  - {fileID: 8153662714640141898, guid: 685809a228904353e8c3067c0018b6e3, type: 3}
+  - {fileID: 6208493919153203466, guid: eba3547676df5ad6a90ca41388095f99, type: 3}
+  marcos:
+  - prefab: {fileID: 2886660951681460625, guid: f753baabf1828958e804632cbc87db11, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 218011497663181360, guid: 8d58ddd8cd2767b2daee5af7449caf41, type: 3}
+    tamanho: {x: 3, y: 3}
+  - prefab: {fileID: 964360025614437047, guid: 168dc2ee5bdfa8602a307f46ec7dbb6f, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 2009812108093065487, guid: 025c29a58d8ed32b887437e85476eb42, type: 3}
+    tamanho: {x: 3, y: 3}
+  decoracao:
+  - {fileID: 218011497663181360, guid: 8d58ddd8cd2767b2daee5af7449caf41, type: 3}
+  - {fileID: 2886660951681460625, guid: f753baabf1828958e804632cbc87db11, type: 3}
+  - {fileID: 964360025614437047, guid: 168dc2ee5bdfa8602a307f46ec7dbb6f, type: 3}
+  - {fileID: 2009812108093065487, guid: 025c29a58d8ed32b887437e85476eb42, type: 3}
+  matMuro: {fileID: 2100000, guid: b43d20ac3d9509251a54941de9af3fd8, type: 2}
+  matMeia: {fileID: 2100000, guid: bbe67ec0fade334109d7958caff030fb, type: 2}
+  matChaoA: {fileID: 2100000, guid: a485de3825d393d3fae2d288854298d1, type: 2}
+  matChaoB: {fileID: 2100000, guid: 3785f98e7cf6848d999ecc0cc9bf30bc, type: 2}
+  matTerreno: {fileID: 2100000, guid: 390895d44adecbbbe8e4c2d834a3457e, type: 2}
+  escalaDecoracao: 1.2
+  neblina: {r: 0.17, g: 0.19, b: 0.24, a: 1}
+  retrato: {fileID: 0}

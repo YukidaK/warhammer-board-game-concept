@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d629fc8e65f3f40a8023748de14853e, type: 3}
+  m_Name: VigiliaDaMorte
+  m_EditorClassIdentifier: Assembly-CSharp::Equipe
+  nome: "Vig\xEDlia da Morte"
+  descricao: "Esquadr\xE3o de veteranos de cap\xEDtulos diferentes, cada um com sua
+    arma. Como inimigos, v\xEAm s\xF3 5."
+  cor: {r: 0.15, g: 0.15, b: 0.17, a: 1}
+  material: {fileID: 2100000, guid: c53ed2c0f0809760a8af918eb249d9c4, type: 2}
+  escala: 0.82
+  qtdInimigos: 5
+  retrato: {fileID: 0}
+  membros:
+  - nome: Vigia Varek
+    classe: "L\xEDder"
+    papel: 1
+    modelo: {fileID: 919132149155446097, guid: f2218ead35a8ac52db04f11ba9bd3291, type: 3}
+    hp: 10
+    mira: 72
+    danoMin: 4
+    danoMax: 6
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: Vigia Thane
+    classe: Fuzileiro
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: afb7a966f76aeea889f4b3e4d91f81f6, type: 3}
+    hp: 9
+    mira: 70
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: Vigia Lorcan
+    classe: Atirador
+    papel: 2
+    modelo: {fileID: 919132149155446097, guid: bfbc0c382c15922f299fc79bcaa148eb, type: 3}
+    hp: 8
+    mira: 80
+    danoMin: 4
+    danoMax: 6
+    mobilidade: 5
+    escala: 1
+    giro: 0
+  - nome: Vigia Oren
+    classe: "Apotec\xE1rio"
+    papel: 3
+    modelo: {fileID: 919132149155446097, guid: e08868e7c4615a9e0849199ac51a6ba1, type: 3}
+    hp: 9
+    mira: 64
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: Vigia Hask
+    classe: Pesado
+    papel: 4
+    modelo: {fileID: 919132149155446097, guid: 7df04bf9f11b01963917d9f27bd0f695, type: 3}
+    hp: 10
+    mira: 66
+    danoMin: 4
+    danoMax: 6
+    mobilidade: 5
+    escala: 1
+    giro: 0
+  - nome: Vigia Ignis
+    classe: Espadachim
+    papel: 5
+    modelo: {fileID: 919132149155446097, guid: cfc9a3051c7fce198a64ef4ba2dadeb1, type: 3}
+    hp: 9
+    mira: 66
+    danoMin: 3
+    danoMax: 6
+    mobilidade: 7
+    escala: 1
+    giro: 0

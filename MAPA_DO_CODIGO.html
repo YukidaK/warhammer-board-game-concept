@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa do código</title>
+<style>
+  :root { --fundo:#0e1014; --painel:#161a21; --texto:#e8ecf0; --fraco:#8a94a6; --ouro:#e6b855; }
+  body { margin:0; background:var(--fundo); color:var(--texto); font-family:system-ui, sans-serif; }
+  main { max-width:1200px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { color:var(--ouro); letter-spacing:.04em; margin:0 0 4px; }
+  p { color:var(--fraco); margin:4px 0 24px; }
+  section { background:var(--painel); border:1px solid #ffffff17; border-radius:6px; padding:16px; margin:16px 0; overflow-x:auto; }
+  h2 { font-size:1.05rem; color:var(--ouro); margin:0 0 8px; }
+  .mermaid { background:transparent; }
+  .mermaid .node { cursor:pointer; }
+</style>
+</head>
+<body>
+<main>
+<h1>Mapa do código: Kill Team Tático</h1>
+<p>Clique numa caixa para abrir o arquivo no VS Code, já na linha da função.</p>
+<section><h2>Visão geral: as duas cenas</h2><pre class="mermaid">
+flowchart LR
+    subgraph CENA_MENU[&quot;Cena Menu&quot;]
+        d1_menu --&gt; d1_menuUi
+        d1_menu --&gt; d1_menuVit
+        d1_menu --&gt; d1_menuIni
+    end
+    d1_menuIni --&gt; d1_selecao
+    d1_selecao --&gt; d1_jogo
+    subgraph CENA_BATALHA[&quot;Cena Batalha&quot;]
+        d1_jogo --&gt; d1_jogoStart
+        d1_jogoStart --&gt; d1_gerador
+        d1_jogoStart --&gt; d1_criarEq
+        d1_jogoStart --&gt; d1_partida
+        d1_jogo --&gt; d1_hud
+        d1_jogo --&gt; d1_camera
+    end
+    subgraph DADOS[&quot;Dados (ScriptableObjects)&quot;]
+        d1_equipe
+        d1_cenario
+    end
+    d1_equipe -.-&gt; d1_menu
+    d1_cenario -.-&gt; d1_menu
+    d1_equipe -.-&gt; d1_criarEq
+    d1_cenario -.-&gt; d1_gerador
+    d1_menuUi --&gt; d1_estilo
+    d1_hud --&gt; d1_estilo
+    d1_fimJogo --&gt; d1_menu
+
+    d1_menu[&quot;Menu.cs&lt;br/&gt;menu inicial&quot;]
+    d1_menuIni[&quot;Iniciar()&lt;br/&gt;carrega a Batalha&quot;]
+    d1_menuVit[&quot;MontarVitrine()&lt;br/&gt;modelos 3D nos pedestais&quot;]
+    d1_menuUi[&quot;CriarInterface()&lt;br/&gt;colunas, cenário, botões&quot;]
+    d1_selecao[&quot;Selecao.cs&lt;br/&gt;escolhas do menu&quot;]
+    d1_jogo[&quot;Jogo.cs&lt;br/&gt;controla a partida&quot;]
+    d1_jogoStart[&quot;Start()&lt;br/&gt;monta mapa e equipes&quot;]
+    d1_criarEq[&quot;CriarEquipes()&lt;br/&gt;jogador x inimigo&quot;]
+    d1_partida[&quot;Partida()&lt;br/&gt;laço de turnos&quot;]
+    d1_fimJogo[&quot;Reiniciar() / VoltarAoMenu()&quot;]
+    d1_gerador[&quot;GeradorDeMapa.cs · Gerar()&quot;]
+    d1_camera[&quot;CameraTatica.cs&lt;br/&gt;WASD, Q/E, zoom&quot;]
+    d1_hud[&quot;Hud.cs&lt;br/&gt;interface da batalha&quot;]
+    d1_estilo[&quot;UiEstilo.cs&lt;br/&gt;cores, fontes, painéis&quot;]
+    d1_equipe[&quot;Equipe.cs&lt;br/&gt;Equipe e Membro&quot;]
+    d1_cenario[&quot;Cenario.cs&lt;br/&gt;Cenario e Marco&quot;]
+    click d1_menu href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Menu.cs:9&quot; &quot;Abrir Assets/Scripts/Menu.cs:9&quot; _self
+    click d1_menuIni href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Menu.cs:53&quot; &quot;Abrir Assets/Scripts/Menu.cs:53&quot; _self
+    click d1_menuVit href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Menu.cs:117&quot; &quot;Abrir Assets/Scripts/Menu.cs:117&quot; _self
+    click d1_menuUi href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Menu.cs:151&quot; &quot;Abrir Assets/Scripts/Menu.cs:151&quot; _self
+    click d1_selecao href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Selecao.cs:3&quot; &quot;Abrir Assets/Scripts/Selecao.cs:3&quot; _self
+    click d1_jogo href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:9&quot; &quot;Abrir Assets/Scripts/Jogo.cs:9&quot; _self
+    click d1_jogoStart href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:60&quot; &quot;Abrir Assets/Scripts/Jogo.cs:60&quot; _self
+    click d1_criarEq href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:91&quot; &quot;Abrir Assets/Scripts/Jogo.cs:91&quot; _self
+    click d1_partida href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:214&quot; &quot;Abrir Assets/Scripts/Jogo.cs:214&quot; _self
+    click d1_fimJogo href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:743&quot; &quot;Abrir Assets/Scripts/Jogo.cs:743&quot; _self
+    click d1_gerador href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/GeradorDeMapa.cs:14&quot; &quot;Abrir Assets/Scripts/GeradorDeMapa.cs:14&quot; _self
+    click d1_camera href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/CameraTatica.cs:4&quot; &quot;Abrir Assets/Scripts/CameraTatica.cs:4&quot; _self
+    click d1_hud href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Hud.cs:9&quot; &quot;Abrir Assets/Scripts/Hud.cs:9&quot; _self
+    click d1_estilo href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/UiEstilo.cs:6&quot; &quot;Abrir Assets/Scripts/UiEstilo.cs:6&quot; _self
+    click d1_equipe href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Equipe.cs:21&quot; &quot;Abrir Assets/Scripts/Equipe.cs:21&quot; _self
+    click d1_cenario href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Cenario.cs:14&quot; &quot;Abrir Assets/Scripts/Cenario.cs:14&quot; _self
+    classDef default fill:#1c2129,stroke:#e6b855,color:#e8ecf0;
+</pre></section>
+<section><h2>Fluxo de uma partida</h2><pre class="mermaid">
+flowchart TD
+    d2_partida --&gt; d2_turnoJ
+    d2_partida --&gt; d2_turnoI
+    d2_turnoJ --&gt; d2_update
+    d2_turnoJ --&gt; d2_botao
+    d2_update --&gt; acoes
+    d2_botao --&gt; acoes
+    d2_turnoI --&gt; d2_ia
+    d2_ia --&gt; acoes
+    subgraph acoes[&quot;Ações de cada soldado&quot;]
+        d2_mover
+        d2_atirar
+        d2_vigiar
+        d2_defender
+        d2_curar
+    end
+    d2_mover --&gt; d2_unidade
+    d2_mover --&gt; d2_vigiar
+    d2_atirar --&gt; d2_chance
+    d2_chance --&gt; d2_grade
+    d2_atirar --&gt; d2_projetil
+    d2_projetil --&gt; d2_autodestruir
+    d2_atirar --&gt; d2_unidade
+    d2_atirar --&gt; d2_pontos
+    d2_curar --&gt; d2_pontos
+    d2_pontos --&gt; d2_hud
+    d2_partida --&gt; d2_fimJogo
+    d2_criarEq --&gt; d2_criarUn
+    d2_criarUn --&gt; d2_unidade
+    d2_unidade --&gt; d2_halo
+    d2_unidade --&gt; d2_billboard
+
+    d2_criarEq[&quot;CriarEquipes()&lt;br/&gt;jogador x inimigo&quot;]
+    d2_criarUn[&quot;CriarUnidade()&lt;br/&gt;modelo, atributos, escala&quot;]
+    d2_partida[&quot;Partida()&lt;br/&gt;laço de turnos&quot;]
+    d2_turnoJ[&quot;TurnoJogador()&quot;]
+    d2_turnoI[&quot;TurnoInimigo()&quot;]
+    d2_update[&quot;Update()&lt;br/&gt;teclado e mouse&quot;]
+    d2_botao[&quot;BotaoAcao()&lt;br/&gt;botões da HUD&quot;]
+    d2_mover[&quot;Mover()&quot;]
+    d2_atirar[&quot;Atirar()&quot;]
+    d2_chance[&quot;Chance()&lt;br/&gt;mira, cobertura, flanco&quot;]
+    d2_vigiar[&quot;Vigiar() e Vigilancias()&lt;br/&gt;tiro de reação&quot;]
+    d2_defender[&quot;Defender()&quot;]
+    d2_curar[&quot;Curar()&quot;]
+    d2_fimJogo[&quot;Reiniciar() / VoltarAoMenu()&quot;]
+    d2_ia[&quot;IA.cs · Agir()&lt;br/&gt;decisão do inimigo&quot;]
+    d2_grade[&quot;Grade.cs&lt;br/&gt;casas, caminhos, visão, cobertura&quot;]
+    d2_unidade[&quot;Unidade.cs&lt;br/&gt;andar, recuo, morrer&quot;]
+    d2_projetil[&quot;Projetil.cs&lt;br/&gt;Rigidbody, Trail, OnTriggerEnter&quot;]
+    d2_halo[&quot;HaloPulsante.cs&quot;]
+    d2_billboard[&quot;Billboard.cs&quot;]
+    d2_autodestruir[&quot;AutoDestruir.cs&quot;]
+    d2_hud[&quot;Hud.cs&lt;br/&gt;interface da batalha&quot;]
+    d2_pontos[&quot;Pontuacao.cs&lt;br/&gt;placar e legenda&quot;]
+    click d2_criarEq href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:91&quot; &quot;Abrir Assets/Scripts/Jogo.cs:91&quot; _self
+    click d2_criarUn href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:133&quot; &quot;Abrir Assets/Scripts/Jogo.cs:133&quot; _self
+    click d2_partida href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:214&quot; &quot;Abrir Assets/Scripts/Jogo.cs:214&quot; _self
+    click d2_turnoJ href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:239&quot; &quot;Abrir Assets/Scripts/Jogo.cs:239&quot; _self
+    click d2_turnoI href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:269&quot; &quot;Abrir Assets/Scripts/Jogo.cs:269&quot; _self
+    click d2_update href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:290&quot; &quot;Abrir Assets/Scripts/Jogo.cs:290&quot; _self
+    click d2_botao href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:415&quot; &quot;Abrir Assets/Scripts/Jogo.cs:415&quot; _self
+    click d2_mover href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:599&quot; &quot;Abrir Assets/Scripts/Jogo.cs:599&quot; _self
+    click d2_atirar href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:628&quot; &quot;Abrir Assets/Scripts/Jogo.cs:628&quot; _self
+    click d2_chance href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:576&quot; &quot;Abrir Assets/Scripts/Jogo.cs:576&quot; _self
+    click d2_vigiar href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:707&quot; &quot;Abrir Assets/Scripts/Jogo.cs:707&quot; _self
+    click d2_defender href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:716&quot; &quot;Abrir Assets/Scripts/Jogo.cs:716&quot; _self
+    click d2_curar href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:725&quot; &quot;Abrir Assets/Scripts/Jogo.cs:725&quot; _self
+    click d2_fimJogo href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Jogo.cs:743&quot; &quot;Abrir Assets/Scripts/Jogo.cs:743&quot; _self
+    click d2_ia href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/IA.cs:8&quot; &quot;Abrir Assets/Scripts/IA.cs:8&quot; _self
+    click d2_grade href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Grade.cs:5&quot; &quot;Abrir Assets/Scripts/Grade.cs:5&quot; _self
+    click d2_unidade href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Unidade.cs:6&quot; &quot;Abrir Assets/Scripts/Unidade.cs:6&quot; _self
+    click d2_projetil href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Projetil.cs:6&quot; &quot;Abrir Assets/Scripts/Projetil.cs:6&quot; _self
+    click d2_halo href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/HaloPulsante.cs:4&quot; &quot;Abrir Assets/Scripts/HaloPulsante.cs:4&quot; _self
+    click d2_billboard href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Billboard.cs:4&quot; &quot;Abrir Assets/Scripts/Billboard.cs:4&quot; _self
+    click d2_autodestruir href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/AutoDestruir.cs:4&quot; &quot;Abrir Assets/Scripts/AutoDestruir.cs:4&quot; _self
+    click d2_hud href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Hud.cs:9&quot; &quot;Abrir Assets/Scripts/Hud.cs:9&quot; _self
+    click d2_pontos href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Pontuacao.cs:5&quot; &quot;Abrir Assets/Scripts/Pontuacao.cs:5&quot; _self
+    classDef default fill:#1c2129,stroke:#e6b855,color:#e8ecf0;
+</pre></section>
+<section><h2>Geração do mapa</h2><pre class="mermaid">
+flowchart LR
+    d3_cenario --&gt; d3_gerador
+    d3_gerador --&gt; d3_distribuir
+    d3_distribuir --&gt; d3_grade
+    d3_gerador --&gt; d3_construir
+    d3_construir --&gt; d3_peca
+    d3_prefab --&gt; d3_peca
+    d3_construir --&gt; d3_grade
+
+    d3_gerador[&quot;GeradorDeMapa.cs · Gerar()&quot;]
+    d3_distribuir[&quot;Distribuir()&lt;br/&gt;onde vai cada cobertura e marco&quot;]
+    d3_construir[&quot;Construir()&lt;br/&gt;coloca as peças 3D&quot;]
+    d3_grade[&quot;Grade.cs&lt;br/&gt;casas, caminhos, visão, cobertura&quot;]
+    d3_peca[&quot;PecaCenario.cs&lt;br/&gt;tamanho da peça&quot;]
+    d3_cenario[&quot;Cenario.cs&lt;br/&gt;Cenario e Marco&quot;]
+    d3_prefab[&quot;PrefabPeca()&lt;br/&gt;prefabs de cenário&quot;]
+    click d3_gerador href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/GeradorDeMapa.cs:14&quot; &quot;Abrir Assets/Scripts/GeradorDeMapa.cs:14&quot; _self
+    click d3_distribuir href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/GeradorDeMapa.cs:30&quot; &quot;Abrir Assets/Scripts/GeradorDeMapa.cs:30&quot; _self
+    click d3_construir href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/GeradorDeMapa.cs:142&quot; &quot;Abrir Assets/Scripts/GeradorDeMapa.cs:142&quot; _self
+    click d3_grade href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Grade.cs:5&quot; &quot;Abrir Assets/Scripts/Grade.cs:5&quot; _self
+    click d3_peca href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/PecaCenario.cs:4&quot; &quot;Abrir Assets/Scripts/PecaCenario.cs:4&quot; _self
+    click d3_cenario href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Cenario.cs:14&quot; &quot;Abrir Assets/Scripts/Cenario.cs:14&quot; _self
+    click d3_prefab href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:145&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:145&quot; _self
+    classDef default fill:#1c2129,stroke:#e6b855,color:#e8ecf0;
+</pre></section>
+<section><h2>Montagem no editor e ferramentas</h2><pre class="mermaid">
+flowchart LR
+    subgraph TOOLS[&quot;Ferramentas Python (tools/)&quot;]
+        d4_lista --&gt; d4_qem
+        d4_qem --&gt; d4_simpl
+        d4_qem --&gt; d4_normais
+        d4_render
+    end
+    d4_qem --&gt;|&quot;OBJ em Assets/Models&quot;| d4_montar
+    subgraph EDITOR[&quot;Editor da Unity (Assets/Editor)&quot;]
+        d4_montar --&gt; d4_recursos
+        d4_montar --&gt; d4_edEquipes
+        d4_edEquipes --&gt; d4_giros
+        d4_montar --&gt; d4_edCenarios
+        d4_edCenarios --&gt; d4_prefab
+        d4_montar --&gt; d4_edMenu
+        d4_montar --&gt; d4_build
+        d4_testes
+        d4_capturas
+        d4_abrir
+    end
+    d4_edEquipes --&gt; d4_equipe
+    d4_edCenarios --&gt; d4_cenario
+    d4_capturas --&gt; d4_gravador
+
+    d4_gravador[&quot;Gravador.cs&lt;br/&gt;grava o vídeo&quot;]
+    d4_equipe[&quot;Equipe.cs&lt;br/&gt;Equipe e Membro&quot;]
+    d4_cenario[&quot;Cenario.cs&lt;br/&gt;Cenario e Marco&quot;]
+    d4_montar[&quot;MontarJogo.cs · Executar()&lt;br/&gt;monta as cenas&quot;]
+    d4_build[&quot;MontarJogo.cs · Build()&lt;br/&gt;build Linux&quot;]
+    d4_recursos[&quot;MontarJogoRecursos.cs&lt;br/&gt;texturas e materiais&quot;]
+    d4_edEquipes[&quot;CriarEquipes()&lt;br/&gt;6 equipes e atributos&quot;]
+    d4_giros[&quot;Giros&lt;br/&gt;direção de cada modelo&quot;]
+    d4_edCenarios[&quot;CriarCenarios()&lt;br/&gt;4 temas&quot;]
+    d4_prefab[&quot;PrefabPeca()&lt;br/&gt;prefabs de cenário&quot;]
+    d4_edMenu[&quot;MontarMenu()&lt;br/&gt;cena Menu&quot;]
+    d4_testes[&quot;Testes.cs · Partidas()&lt;br/&gt;partidas automáticas&quot;]
+    d4_capturas[&quot;Capturas.cs&lt;br/&gt;prints e vídeo&quot;]
+    d4_abrir[&quot;AbrirMenu.cs&lt;br/&gt;abre o Menu no editor&quot;]
+    d4_lista[&quot;lista_modelos.txt&lt;br/&gt;origem de cada modelo&quot;]
+    d4_qem[&quot;decimar_qem.py&lt;br/&gt;STL/OBJ → OBJ leve&quot;]
+    d4_simpl[&quot;simplificação por erro quádrico&quot;]
+    d4_normais[&quot;normais_com_quina()&quot;]
+    d4_render[&quot;render.py&lt;br/&gt;pranchas de preview&quot;]
+    click d4_gravador href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Gravador.cs:6&quot; &quot;Abrir Assets/Scripts/Gravador.cs:6&quot; _self
+    click d4_equipe href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Equipe.cs:21&quot; &quot;Abrir Assets/Scripts/Equipe.cs:21&quot; _self
+    click d4_cenario href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Scripts/Cenario.cs:14&quot; &quot;Abrir Assets/Scripts/Cenario.cs:14&quot; _self
+    click d4_montar href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogo.cs:20&quot; &quot;Abrir Assets/Editor/MontarJogo.cs:20&quot; _self
+    click d4_build href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogo.cs:140&quot; &quot;Abrir Assets/Editor/MontarJogo.cs:140&quot; _self
+    click d4_recursos href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoRecursos.cs:14&quot; &quot;Abrir Assets/Editor/MontarJogoRecursos.cs:14&quot; _self
+    click d4_edEquipes href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:62&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:62&quot; _self
+    click d4_giros href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:33&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:33&quot; _self
+    click d4_edCenarios href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:201&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:201&quot; _self
+    click d4_prefab href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:145&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:145&quot; _self
+    click d4_edMenu href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/MontarJogoEquipes.cs:294&quot; &quot;Abrir Assets/Editor/MontarJogoEquipes.cs:294&quot; _self
+    click d4_testes href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/Testes.cs:73&quot; &quot;Abrir Assets/Editor/Testes.cs:73&quot; _self
+    click d4_capturas href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/Capturas.cs:10&quot; &quot;Abrir Assets/Editor/Capturas.cs:10&quot; _self
+    click d4_abrir href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/Assets/Editor/AbrirMenu.cs:9&quot; &quot;Abrir Assets/Editor/AbrirMenu.cs:9&quot; _self
+    click d4_lista href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/tools/lista_modelos.txt:1&quot; &quot;Abrir tools/lista_modelos.txt:1&quot; _self
+    click d4_qem href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/tools/decimar_qem.py:76&quot; &quot;Abrir tools/decimar_qem.py:76&quot; _self
+    click d4_simpl href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/tools/decimar_qem.py:92&quot; &quot;Abrir tools/decimar_qem.py:92&quot; _self
+    click d4_normais href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/tools/decimar_qem.py:54&quot; &quot;Abrir tools/decimar_qem.py:54&quot; _self
+    click d4_render href &quot;code-oss://file/home/vinicius/Downloads/warhammer-board-game-concept/tools/render.py:22&quot; &quot;Abrir tools/render.py:22&quot; _self
+    classDef default fill:#1c2129,stroke:#e6b855,color:#e8ecf0;
+</pre></section>
+</main>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: false, securityLevel: "loose", theme: "dark" });
+  // um diagrama por vez: evita que os desenhos se misturem
+  const els = [...document.querySelectorAll(".mermaid")];
+  for (let i = 0; i < els.length; i++) {
+    const { svg, bindFunctions } = await mermaid.render("grafico" + (i + 1), els[i].textContent);
+    els[i].innerHTML = svg;
+    if (bindFunctions) bindFunctions(els[i]);
+  }
+</script>
+</body>
+</html>

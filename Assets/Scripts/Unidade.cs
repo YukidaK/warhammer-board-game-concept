@@ -20,9 +20,10 @@ public class Unidade : MonoBehaviour
     public Vector2Int cel;
     public Transform modelo;
     public Vector3 posModelo;
+    public float altura = 1.45f;   // topo do modelo, para barra de vida, halo e mira
 
     public bool Viva => hp > 0;
-    public Vector3 Peito => transform.position + Vector3.up * 1.0f;
+    public Vector3 Peito => transform.position + Vector3.up * (altura * 0.68f);
 
     public void NovoTurno()
     {
@@ -81,18 +82,29 @@ public class Unidade : MonoBehaviour
         modelo.localPosition = posModelo;
     }
 
-    public IEnumerator Morrer(Grade grade)
+    // Ao morrer o Rigidbody deixa de ser cinemático: o impacto do tiro derruba o corpo pela física.
+    public IEnumerator Morrer(Grade grade, Vector3 direcaoDoTiro, GameObject explosao)
     {
         grade.ocupante[cel.x, cel.y] = null;
-        var inicio = transform.rotation;
-        var fim = inicio * Quaternion.Euler(-85f, 0, 0);
-        for (float t = 0; t < 0.6f; t += Time.deltaTime)
+        if (explosao != null)
         {
-            transform.rotation = Quaternion.Slerp(inicio, fim, t / 0.6f);
-            yield return null;
+            var fx = Instantiate(explosao, Peito + Vector3.up * 0.2f, Quaternion.identity);
+            fx.name = "Explosao";
         }
-        transform.rotation = fim;
-        yield return new WaitForSeconds(0.6f);
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            var dir = direcaoDoTiro;
+            dir.y = 0;
+            dir = dir.sqrMagnitude > 0.001f ? dir.normalized : -transform.forward;
+            rb.isKinematic = false;
+            // empurrão na direção do tiro + giro para o corpo tombar (independe da massa)
+            rb.AddForce(dir * 1.8f + Vector3.up * 1.4f, ForceMode.VelocityChange);
+            rb.AddTorque(Vector3.Cross(Vector3.up, dir) * 6f, ForceMode.VelocityChange);
+            yield return new WaitForSeconds(1.8f);
+            rb.isKinematic = true;
+        }
+        else yield return new WaitForSeconds(1.2f);
         var escala = transform.localScale;
         for (float t = 0; t < 0.4f; t += Time.deltaTime)
         {

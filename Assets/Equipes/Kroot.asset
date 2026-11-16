@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d629fc8e65f3f40a8023748de14853e, type: 3}
+  m_Name: Kroot
+  m_EditorClassIdentifier: Assembly-CSharp::Equipe
+  nome: Bando Kroot
+  descricao: "Ca\xE7adores alien\xEDgenas \xE1geis. Pouca armadura, muita mobilidade."
+  cor: {r: 0.62, g: 0.52, b: 0.38, a: 1}
+  material: {fileID: 2100000, guid: cc45a4b2924b7d93e9f3745eaed3c85c, type: 2}
+  escala: 0.92
+  qtdInimigos: 6
+  retrato: {fileID: 0}
+  membros:
+  - nome: Mestre Kha'rok
+    classe: "Mestre de ca\xE7a"
+    papel: 1
+    modelo: {fileID: 919132149155446097, guid: b354606343b7ee2a19be3f406b1737cf, type: 3}
+    hp: 8
+    mira: 70
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Guerreiro Tuk
+    classe: Guerreiro
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: 587cc6f764ecc5ceba797c0693a5a2c3, type: 3}
+    hp: 7
+    mira: 66
+    danoMin: 2
+    danoMax: 5
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Olho-Longo
+    classe: Atirador
+    papel: 2
+    modelo: {fileID: 919132149155446097, guid: e9cd858fa7f2eb92fb2ee82b91bc715d, type: 3}
+    hp: 6
+    mira: 82
+    danoMin: 4
+    danoMax: 7
+    mobilidade: 6
+    escala: 1
+    giro: 180
+  - nome: "Xam\xE3 Sangue-Frio"
+    classe: "Xam\xE3"
+    papel: 3
+    modelo: {fileID: 919132149155446097, guid: 253feb11a97ae8b3fa46845222cbf194, type: 3}
+    hp: 7
+    mira: 62
+    danoMin: 2
+    danoMax: 4
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Rastreador
+    classe: Rastreador
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: f7ecf386b8dff4ce5bbfecbfaf0a6b9e, type: 3}
+    hp: 7
+    mira: 66
+    danoMin: 2
+    danoMax: 4
+    mobilidade: 8
+    escala: 1
+    giro: 180
+  - nome: Pistoleiro
+    classe: Pistoleiro
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: 901459beef668833aa5e2d6fa67b6fd9, type: 3}
+    hp: 7
+    mira: 64
+    danoMin: 3
+    danoMax: 4
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Espreitador
+    classe: "L\xE2minas"
+    papel: 5
+    modelo: {fileID: 919132149155446097, guid: 4d03a2cd93205ecaabd5b7dc89eee15e, type: 3}
+    hp: 7
+    mira: 62
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 8
+    escala: 1
+    giro: 180
+  - nome: Arqueiro
+    classe: Arqueiro
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: 4cd074a63b4dfb4d89cda38c3cff5c34, type: 3}
+    hp: 6
+    mira: 70
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Corta-Pele
+    classe: Retalhador
+    papel: 5
+    modelo: {fileID: 919132149155446097, guid: 032fddfa6222121e1bf4a278add00633, type: 3}
+    hp: 8
+    mira: 58
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 7
+    escala: 1
+    giro: 180
+  - nome: Artilheiro Esfolador
+    classe: Arma pesada
+    papel: 4
+    modelo: {fileID: 919132149155446097, guid: 4f53c637da914bb9daa963e4c604b0d7, type: 3}
+    hp: 8
+    mira: 62
+    danoMin: 3
+    danoMax: 6
+    mobilidade: 6
+    escala: 1
+    giro: 180
+  - nome: Artilheiro Tribal
+    classe: Arma pesada
+    papel: 4
+    modelo: {fileID: 919132149155446097, guid: ca91adf6b8c18945787018eabda3ea98, type: 3}
+    hp: 8
+    mira: 62
+    danoMin: 3
+    danoMax: 6
+    mobilidade: 6
+    escala: 1
+    giro: 180

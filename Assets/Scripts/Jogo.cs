@@ -10,18 +10,26 @@ public class Jogo : MonoBehaviour
 {
     public enum Modo { Mover, Atirar, Curar }
 
-    [Header("Modelos")]
-    public GameObject[] modelosAzuis;
-    public GameObject[] modelosVermelhos;
+    [Header("Times e cenários (escolhidos no menu)")]
+    public Equipe[] equipes;
+    public Cenario[] cenarios;
+    public Equipe EquipeJogador { get; private set; }
+    public Equipe EquipeInimiga { get; private set; }
+    public Cenario CenarioAtual { get; private set; }
 
     [Header("Materiais")]
     public Material matAzul, matVermelho, matChaoA, matChaoB, matTerreno, matMuro, matCaixa, matSaco;
     public Material matMover1, matMover2, matCursor, matTraco, matEscudo, matAnel, matBaseAzul, matBaseVermelha;
 
+    [Header("Prefabs")]
+    public GameObject prefUnidade, prefMuro, prefCaixa, prefSaco, prefCasa, prefTerreno, prefPedra;
+    public GameObject prefProjetil, prefExplosao, prefFxDisparo, prefFxImpacto, prefHalo;
+
     [Header("Cena")]
     public Camera cam;
     public CameraTatica camTatica;
     public Hud hud;
+    public Pontuacao pontos;
 
     // usados pelo roteiro automático de testes
     public static int seedFixa = -1;
@@ -45,7 +53,7 @@ public class Jogo : MonoBehaviour
     Dictionary<Vector2Int, Vector2Int> anterior;
     readonly List<GameObject> destaques = new();
     readonly List<GameObject> escudos = new();
-    GameObject cursor, anel;
+    GameObject cursor, anel, halo;
     LineRenderer linhaCaminho;
     Transform mapa;
 
@@ -53,10 +61,20 @@ public class Jogo : MonoBehaviour
     {
         int seed = seedFixa >= 0 ? seedFixa : Random.Range(0, 100000);
         Random.InitState(seed);
+        EquipeJogador = equipes[Selecao.jogador >= 0 && Selecao.jogador < equipes.Length ? Selecao.jogador : 0];
+        EquipeInimiga = equipes[Selecao.inimigo >= 0 && Selecao.inimigo < equipes.Length ? Selecao.inimigo : 0];
+        int ic = Selecao.cenario >= 0 && Selecao.cenario < cenarios.Length ? Selecao.cenario : new System.Random(seed).Next(cenarios.Length);
+        CenarioAtual = cenarios[ic];
+        if (CenarioAtual.neblina.a > 0)
+        {
+            RenderSettings.fogColor = CenarioAtual.neblina;
+            cam.backgroundColor = CenarioAtual.neblina;
+        }
         mapa = new GameObject("Mapa").transform;
-        grade = GeradorDeMapa.Gerar(seed, this, mapa, out var inicioAzul, out var inicioVermelho);
-        Debug.Log($"[Jogo] mapa gerado com seed {seed}");
+        grade = GeradorDeMapa.Gerar(seed, this, CenarioAtual, mapa, out var inicioAzul, out var inicioVermelho);
+        Debug.Log($"[Jogo] mapa gerado com seed {seed}: {EquipeJogador.nome} x {EquipeInimiga.nome} em {CenarioAtual.nome}");
 
+        if (pontos == null) pontos = GetComponent<Pontuacao>() ?? gameObject.AddComponent<Pontuacao>();
         hud.Criar(this, cam);
         CriarEquipes(inicioAzul, inicioVermelho);
         CriarMarcadores();
@@ -70,55 +88,40 @@ public class Jogo : MonoBehaviour
 
     // ---------- montagem ----------
 
-    static readonly (string nome, string classe, int hp, int mira, int dmin, int dmax, float mob)[] Esquadrao =
-    {
-        ("Sgt. Varn", "Sargento", 8, 72, 3, 5, 6f),
-        ("Cabo Rhee", "Fuzileiro", 7, 68, 3, 5, 6f),
-        ("Kessa", "Atiradora", 6, 80, 4, 7, 5f),
-        ("Doc Malek", "Médico", 6, 62, 2, 4, 6f),
-    };
-
-    static readonly Dictionary<string, (string nome, int hp, int mira, int dmin, int dmax, float mob)> Hostis = new()
-    {
-        ["Trooper"] = ("Soldado", 5, 58, 2, 4, 6f),
-        ["Plasma"] = ("Plasma", 5, 58, 3, 5, 6f),
-        ["Melta"] = ("Melta", 6, 55, 3, 6, 5f),
-        ["Volleygun"] = ("Metralha", 5, 62, 2, 4, 5f),
-        ["Demo"] = ("Demolidor", 6, 55, 3, 5, 6f),
-        ["Recon"] = ("Batedor", 4, 60, 2, 4, 7f),
-        ["Vox"] = ("Rádio", 4, 55, 2, 3, 6f),
-    };
-
     void CriarEquipes(List<Vector2Int> inicioAzul, List<Vector2Int> inicioVermelho)
     {
-        for (int i = 0; i < 4; i++)
+        var ej = EquipeJogador;
+        var ei = EquipeInimiga;
+        var matJ = ej.material != null ? ej.material : matAzul;
+        var matI = ei.material != null ? ei.material : matVermelho;
+        if (ei == ej)
         {
-            var e = Esquadrao[i];
-            var u = CriarUnidade(modelosAzuis[i], true, inicioAzul[i], e.nome);
-            u.classe = e.classe;
-            u.hp = u.hpMax = e.hp;
-            u.mira = e.mira;
-            u.danoMin = e.dmin;
-            u.danoMax = e.dmax;
-            u.mobilidade = e.mob;
-            u.atirador = i == 2;
-            u.medico = i == 3;
+            // espelho: o inimigo usa uma versão mais escura e avermelhada da mesma pintura
+            matI = new Material(matI) { name = matI.name + " (inimigo)" };
+            matI.SetColor("_BaseColor", Color.Lerp(matI.GetColor("_BaseColor") * 0.6f, new Color(0.55f, 0.12f, 0.1f), 0.35f));
+        }
+
+        // esquadrão do jogador: os 4 primeiros membros do time
+        for (int i = 0; i < inicioAzul.Count; i++)
+        {
+            var m = ej.membros[i % ej.membros.Length];
+            var u = CriarUnidade(m, ej, true, inicioAzul[i], m.nome, matJ);
             azuis.Add(u);
         }
 
+        // inimigos: sorteados entre os membros do outro time, sem repetir enquanto houver opções
+        int qtd = Mathf.Clamp(ei.qtdInimigos, 1, inicioVermelho.Count);
+        var ordem = new List<int> { 0, 2, 4, 1, 3, 5 };   // espalha pelos 3 grupos quando são menos de 6
+        var bolsa = new List<Membro>();
         var usados = new Dictionary<string, int>();
-        for (int i = 0; i < inicioVermelho.Count; i++)
+        for (int i = 0; i < qtd; i++)
         {
-            var modelo = modelosVermelhos[Random.Range(0, modelosVermelhos.Length)];
-            if (!Hostis.TryGetValue(modelo.name, out var h)) h = ("Inimigo", 5, 58, 2, 4, 6f);
-            usados[h.nome] = usados.TryGetValue(h.nome, out int n) ? n + 1 : 1;
-            var u = CriarUnidade(modelo, false, inicioVermelho[i], usados[h.nome] > 1 ? $"{h.nome} {usados[h.nome]}" : h.nome);
-            u.classe = "Inimigo";
-            u.hp = u.hpMax = h.hp;
-            u.mira = h.mira;
-            u.danoMin = h.dmin;
-            u.danoMax = h.dmax;
-            u.mobilidade = h.mob;
+            if (bolsa.Count == 0) bolsa.AddRange(ei.membros);
+            var m = bolsa[Random.Range(0, bolsa.Count)];
+            bolsa.Remove(m);
+            usados[m.nome] = usados.TryGetValue(m.nome, out int n) ? n + 1 : 1;
+            var cel = inicioVermelho[ordem[i] < inicioVermelho.Count ? ordem[i] : i];
+            var u = CriarUnidade(m, ei, false, cel, usados[m.nome] > 1 ? $"{m.nome} {usados[m.nome]}" : m.nome, matI);
             u.transform.rotation = Quaternion.Euler(0, 180, 0);
             vermelhos.Add(u);
         }
@@ -127,35 +130,58 @@ public class Jogo : MonoBehaviour
         foreach (var u in vermelhos) hud.CriarBarra(u);
     }
 
-    Unidade CriarUnidade(GameObject modelo, bool azul, Vector2Int cel, string nome)
+    Unidade CriarUnidade(Membro dados, Equipe equipe, bool azul, Vector2Int cel, string nome, Material mat)
     {
-        var go = new GameObject(nome);
+        // o prefab Unidade traz a base, o CapsuleCollider e o Rigidbody (cinemático enquanto vivo)
+        var go = prefUnidade != null ? Instantiate(prefUnidade) : new GameObject();
+        go.name = nome;
         go.transform.position = Grade.Mundo(cel);
-        var u = go.AddComponent<Unidade>();
+        var u = go.GetComponent<Unidade>() ?? go.AddComponent<Unidade>();
         u.nome = nome;
         u.azul = azul;
         u.cel = cel;
+        u.classe = dados.classe;
+        u.hp = u.hpMax = dados.hp;
+        u.mira = dados.mira;
+        u.danoMin = dados.danoMin;
+        u.danoMax = dados.danoMax;
+        u.mobilidade = dados.mobilidade;
+        if (!azul)
+        {
+            // do lado inimigo vêm tropas menos experientes: mantém o equilíbrio de 4 contra até 6
+            u.hp = u.hpMax = Mathf.Max(3, Mathf.RoundToInt(dados.hp * 0.72f));
+            u.mira = dados.mira - 8;
+        }
+        u.atirador = dados.papel == Papel.Atirador;
+        u.medico = dados.papel == Papel.Medico;
         grade.ocupante[cel.x, cel.y] = u;
 
-        var m = Instantiate(modelo, go.transform);
+        var m = Instantiate(dados.modelo, go.transform);
         m.name = "Modelo";
         m.transform.localPosition = Vector3.zero;
-        m.transform.localRotation = Quaternion.identity;
-        m.transform.localScale = Vector3.one * 1.45f;
+        m.transform.localRotation = Quaternion.Euler(0, dados.giro, 0);
+        m.transform.localScale = Vector3.one * equipe.escala * dados.escala;
+        float topo = 0;
         foreach (var r in m.GetComponentsInChildren<MeshRenderer>())
         {
-            r.sharedMaterial = azul ? matAzul : matVermelho;
+            r.sharedMaterial = mat;
             r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            topo = Mathf.Max(topo, r.bounds.max.y - go.transform.position.y);
         }
+        u.altura = Mathf.Clamp(topo, 0.9f, 2.6f);
         u.modelo = m.transform;
         u.posModelo = Vector3.zero;
 
-        var b = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        Destroy(b.GetComponent<Collider>());
-        b.name = "Base";
-        b.transform.SetParent(go.transform, false);
-        b.transform.localScale = new Vector3(0.95f, 0.025f, 0.95f);
-        b.transform.localPosition = Vector3.up * 0.025f;
+        var b = go.transform.Find("Base");
+        if (b == null)
+        {
+            b = GameObject.CreatePrimitive(PrimitiveType.Cylinder).transform;
+            Destroy(b.GetComponent<Collider>());
+            b.name = "Base";
+            b.SetParent(go.transform, false);
+            b.localScale = new Vector3(0.95f, 0.025f, 0.95f);
+            b.localPosition = Vector3.up * 0.025f;
+        }
         b.GetComponent<Renderer>().sharedMaterial = azul ? matBaseAzul : matBaseVermelha;
         return u;
     }
@@ -169,6 +195,12 @@ public class Jogo : MonoBehaviour
         anel.name = "AnelSelecao";
         anel.transform.localScale = new Vector3(1.25f, 0.012f, 1.25f);
         anel.GetComponent<Renderer>().sharedMaterial = matAnel;
+        if (prefHalo != null)
+        {
+            halo = Instantiate(prefHalo);
+            halo.name = "Halo";
+            halo.SetActive(false);
+        }
         var linhaGo = new GameObject("Caminho");
         linhaCaminho = linhaGo.AddComponent<LineRenderer>();
         linhaCaminho.sharedMaterial = matCursor;
@@ -181,7 +213,7 @@ public class Jogo : MonoBehaviour
 
     IEnumerator Partida()
     {
-        hud.Log("Missão: elimine todos os inimigos vermelhos.");
+        hud.Log($"Missão: {EquipeJogador.nome} contra {EquipeInimiga.nome} em {CenarioAtual.nome}. Elimine todos os inimigos.");
         while (!Acabou)
         {
             yield return TurnoJogador();
@@ -191,6 +223,14 @@ public class Jogo : MonoBehaviour
         }
         LimparDestaques();
         anel.SetActive(false);
+        if (halo != null) halo.SetActive(false);
+        if (Vitoria)
+        {
+            int vivos = azuis.FindAll(u => u.Viva).Count;
+            pontos.Adicionar(vivos * Pontuacao.BonusPorSobrevivente, $"Bônus: {vivos} sobreviventes", azuis.Find(u => u.Viva).transform.position);
+            int poupados = Mathf.Max(0, Pontuacao.TurnosReferencia - turno);
+            if (poupados > 0) pontos.Adicionar(poupados * Pontuacao.BonusPorTurnoPoupado, $"Bônus: {poupados} turnos poupados", azuis.Find(u => u.Viva).transform.position);
+        }
         hud.Fim(Vitoria);
         hud.Banner(Vitoria ? "VITÓRIA" : "DERROTA", Vitoria);
         Debug.Log($"[Jogo] fim da partida no turno {turno}: {(Vitoria ? "VITÓRIA" : "DERROTA")}");
@@ -231,6 +271,7 @@ public class Jogo : MonoBehaviour
         hud.Banner("TURNO INIMIGO", false);
         hud.Log($"— Turno {turno}: inimigos —");
         anel.SetActive(false);
+        if (halo != null) halo.SetActive(false);
         yield return new WaitForSeconds(0.6f);
         foreach (var u in vermelhos) if (u.Viva) { u.NovoTurno(); u.vigilancia = false; }
         foreach (var u in new List<Unidade>(vermelhos))
@@ -251,6 +292,7 @@ public class Jogo : MonoBehaviour
         if (Acabou)
         {
             if (Input.GetKeyDown(KeyCode.R)) Reiniciar();
+            if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Escape)) VoltarAoMenu();
             return;
         }
         if (Input.GetKeyDown(KeyCode.F5)) { Reiniciar(); return; }
@@ -449,10 +491,17 @@ public class Jogo : MonoBehaviour
     {
         LimparDestaques();
         var s = selecionada;
-        if (s == null || !s.Viva) { anel.SetActive(false); return; }
+        if (s == null || !s.Viva) { anel.SetActive(false); if (halo != null) halo.SetActive(false); return; }
         anel.SetActive(true);
         anel.transform.SetParent(s.transform, false);
         anel.transform.localPosition = Vector3.up * 0.015f;
+        if (halo != null)
+        {
+            // halo só no soldado azul escolhido durante a vez do jogador
+            halo.SetActive(s.azul && turnoDoJogador);
+            halo.transform.SetParent(s.transform, false);
+            halo.transform.localPosition = Vector3.up * (s.altura + 0.45f);
+        }
         if (!turnoDoJogador || s.pa == 0 || modo != Modo.Mover || autoJogador) return;
 
         alcance = grade.Alcance(s.cel, s.mobilidade * s.pa, out anterior);
@@ -578,7 +627,7 @@ public class Jogo : MonoBehaviour
 
     public IEnumerator Atirar(Unidade a, Unidade alvo, bool reacao = false)
     {
-        int chance = Chance(a, alvo, out _, out int crit, reacao);
+        int chance = Chance(a, alvo, out int cob, out int crit, reacao);
         a.Virar(alvo.transform.position);
         if (!reacao)
         {
@@ -592,16 +641,20 @@ public class Jogo : MonoBehaviour
         bool acertou = Random.Range(0, 100) < chance;
         bool critico = acertou && Random.Range(0, 100) < crit;
         var destino = acertou ? alvo.Peito : alvo.Peito + new Vector3(Random.Range(-1f, 1f), Random.Range(0.3f, 1f), Random.Range(-1f, 1f));
-        var origem = a.transform.position + Vector3.up * 0.95f + a.transform.forward * 0.45f;
+        var origem = a.transform.position + Vector3.up * (a.altura * 0.65f) + a.transform.forward * 0.45f;
 
         int rajadas = a.atirador ? 1 : 3;
+        var disparos = new List<Projetil>();
         for (int i = 0; i < rajadas; i++)
         {
             StartCoroutine(a.Recuo());
-            StartCoroutine(Traco(origem, destino + Random.insideUnitSphere * 0.1f));
+            var p = Disparar(a, alvo, origem, destino + Random.insideUnitSphere * 0.1f, acertou);
+            if (p != null) disparos.Add(p);
             yield return new WaitForSeconds(0.09f);
         }
-        yield return new WaitForSeconds(0.2f);
+        // espera os projéteis chegarem (com limite de tempo)
+        for (float t = 0; t < 1.5f && disparos.Exists(p => p != null && p.Ativo); t += Time.deltaTime) yield return null;
+        yield return new WaitForSeconds(0.1f);
 
         if (acertou)
         {
@@ -609,12 +662,20 @@ public class Jogo : MonoBehaviour
             alvo.hp = Mathf.Max(0, alvo.hp - dano);
             hud.Popup(alvo.transform.position, critico ? $"CRÍTICO -{dano}" : $"-{dano}", critico ? new Color(1f, 0.6f, 0.1f) : new Color(1f, 0.35f, 0.3f));
             hud.Log($"{a.nome} atirou em {alvo.nome} ({chance}%): {(critico ? "CRÍTICO" : "acertou")}, {dano} de dano.");
-            StartCoroutine(alvo.Tremer());
-            if (!alvo.Viva)
+            if (a.azul)
+            {
+                if (reacao) pontos.Adicionar(Pontuacao.Reacao, "Tiro de vigilância", alvo.transform.position);
+                if (cob == 0) pontos.Adicionar(Pontuacao.Flanco, "Flanqueado", alvo.transform.position);
+                if (critico) pontos.Adicionar(Pontuacao.Critico, "Crítico", alvo.transform.position);
+            }
+            if (alvo.Viva) StartCoroutine(alvo.Tremer());
+            else
             {
                 hud.Log($"{alvo.nome} foi abatido!");
                 alvo.vigilancia = false;
-                yield return alvo.Morrer(grade);
+                if (a.azul) pontos.Adicionar(Pontuacao.Abate, $"{alvo.nome} abatido", alvo.transform.position);
+                else pontos.Adicionar(Pontuacao.SoldadoPerdido, $"{alvo.nome} caiu", alvo.transform.position);
+                yield return alvo.Morrer(grade, alvo.transform.position - a.transform.position, prefExplosao);
                 VerificarFim();
             }
         }
@@ -626,28 +687,21 @@ public class Jogo : MonoBehaviour
         yield return new WaitForSeconds(0.35f);
     }
 
-    IEnumerator Traco(Vector3 de, Vector3 para)
+    // Cria o projétil (prefab com Rigidbody, SphereCollider e TrailRenderer) e o clarão do cano.
+    Projetil Disparar(Unidade a, Unidade alvo, Vector3 de, Vector3 para, bool acertou)
     {
-        var go = new GameObject("Traco");
-        var l = go.AddComponent<LineRenderer>();
-        l.sharedMaterial = matTraco;
-        l.widthMultiplier = 0.06f;
-        l.positionCount = 2;
-        var flash = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        Destroy(flash.GetComponent<Collider>());
-        flash.transform.position = de;
-        flash.transform.localScale = Vector3.one * 0.25f;
-        flash.GetComponent<Renderer>().sharedMaterial = matTraco;
-        float dur = 0.12f;
-        for (float t = 0; t < dur; t += Time.deltaTime)
+        if (prefFxDisparo != null)
         {
-            float k = t / dur;
-            l.SetPosition(0, Vector3.Lerp(de, para, Mathf.Max(0, k - 0.35f)));
-            l.SetPosition(1, Vector3.Lerp(de, para, k));
-            yield return null;
+            var fx = Instantiate(prefFxDisparo, de, Quaternion.LookRotation(para - de));
+            fx.name = "FxDisparo";
         }
-        Destroy(flash);
-        Destroy(go);
+        if (prefProjetil == null) return null;
+        var go = Instantiate(prefProjetil);
+        go.name = "Projetil";
+        var p = go.GetComponent<Projetil>();
+        p.fxImpacto = prefFxImpacto;
+        p.Disparar(de, para, a, alvo, acertou);
+        return p;
     }
 
     public IEnumerator Vigiar(Unidade u)
@@ -676,6 +730,7 @@ public class Jogo : MonoBehaviour
         alvo.hp = Mathf.Min(alvo.hpMax, alvo.hp + 4);
         hud.Popup(alvo.transform.position, $"+{alvo.hp - antes} HP", new Color(0.4f, 1f, 0.5f));
         hud.Log($"{medico.nome} curou {alvo.nome} em {alvo.hp - antes} HP.");
+        if (medico.azul && alvo.hp > antes) pontos.Adicionar(Pontuacao.Cura, "Cura", alvo.transform.position);
         yield return new WaitForSeconds(0.5f);
     }
 
@@ -685,7 +740,12 @@ public class Jogo : MonoBehaviour
         else if (!azuis.Exists(u => u.Viva)) { Acabou = true; Vitoria = false; }
     }
 
-    void Reiniciar()
+    public void VoltarAoMenu()
+    {
+        if (SceneManager.sceneCountInBuildSettings > 1) SceneManager.LoadScene("Menu");
+    }
+
+    public void Reiniciar()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

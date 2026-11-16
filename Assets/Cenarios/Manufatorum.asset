@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4918e9b346061838fadab6dd41d94a34, type: 3}
+  m_Name: Manufatorum
+  m_EditorClassIdentifier: Assembly-CSharp::Cenario
+  nome: Manufatorum
+  descricao: "P\xE1tio de uma forja industrial: paredes com relevos mec\xE2nicos,
+    tanques e chamin\xE9s fumegantes."
+  muros:
+  - {fileID: 1767346911232940728, guid: c4028ac8fef514d05bf9f68be32de535, type: 3}
+  - {fileID: 6724498325223915276, guid: 7448f98946b4abc88b60befc1d14ea9e, type: 3}
+  - {fileID: 2699985825630833168, guid: 132833478109cd74bac1431af2ef34aa, type: 3}
+  - {fileID: 2918745518796913918, guid: 7fd735857a9a47325bd2d9c267c6ae5f, type: 3}
+  meiaCobertura:
+  - {fileID: 9107849782595351095, guid: 7730d96520ef70518840d1adb444cf56, type: 3}
+  - {fileID: 6208493919153203466, guid: eba3547676df5ad6a90ca41388095f99, type: 3}
+  - {fileID: 5214697207287586975, guid: ec9bbb13346b54bb5bbf1742d0617d63, type: 3}
+  - {fileID: 8153662714640141898, guid: 685809a228904353e8c3067c0018b6e3, type: 3}
+  marcos:
+  - prefab: {fileID: 1930910186156728813, guid: 7bed4fbcb2c8016e8a9d8cb7639516c9, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 3066837693093801510, guid: 93967e326533f514a9b461ed0e442620, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 3110919313746672063, guid: 117c312e5d8230ce5a935493313e9bc1, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 6410485726367530149, guid: e38a55f5d8dc0ccf7a2fad12b2747dd3, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 7299537683469228029, guid: fc2792884156733518591563a4bf9bc0, type: 3}
+    tamanho: {x: 2, y: 2}
+  - prefab: {fileID: 1411791802572385502, guid: 7a570baa3ec6ab28ba0f42aeea6ec328, type: 3}
+    tamanho: {x: 2, y: 1}
+  - prefab: {fileID: 5135865151932773189, guid: 472a3e9edbc5f81d3a036f65346a91bf, type: 3}
+    tamanho: {x: 2, y: 2}
+  decoracao:
+  - {fileID: 3110919313746672063, guid: 117c312e5d8230ce5a935493313e9bc1, type: 3}
+  - {fileID: 1930910186156728813, guid: 7bed4fbcb2c8016e8a9d8cb7639516c9, type: 3}
+  - {fileID: 3066837693093801510, guid: 93967e326533f514a9b461ed0e442620, type: 3}
+  - {fileID: 787409897594094367, guid: bce5e4bab5f787a4694e038352d1a665, type: 3}
+  - {fileID: 6410485726367530149, guid: e38a55f5d8dc0ccf7a2fad12b2747dd3, type: 3}
+  - {fileID: 4479648931135687228, guid: 9d7e0bc5edd6469bab35c6ca69967277, type: 3}
+  - {fileID: 1411791802572385502, guid: 7a570baa3ec6ab28ba0f42aeea6ec328, type: 3}
+  matMuro: {fileID: 2100000, guid: 3de8508dcb15a4ae4a6831f0e4153cf6, type: 2}
+  matMeia: {fileID: 2100000, guid: 4fa97d42799ad2783a972105b94d7ac5, type: 2}
+  matChaoA: {fileID: 2100000, guid: 1196bc49d36df07a88289962f4e6a9ff, type: 2}
+  matChaoB: {fileID: 2100000, guid: 85044e41590acacfd9d0f1d3c4892d0a, type: 2}
+  matTerreno: {fileID: 2100000, guid: 40519e3dea95e91f8882ec8560635bee, type: 2}
+  escalaDecoracao: 2
+  neblina: {r: 0.2, g: 0.16, b: 0.13, a: 1}
+  retrato: {fileID: 0}

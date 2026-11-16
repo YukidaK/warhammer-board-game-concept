@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d629fc8e65f3f40a8023748de14853e, type: 3}
+  m_Name: AnjosSombrios
+  m_EditorClassIdentifier: Assembly-CSharp::Equipe
+  nome: Anjos Sombrios
+  descricao: "Fuzileiros espaciais de manto verde. Poucos, resistentes e certeiros.
+    Como inimigos, v\xEAm s\xF3 5."
+  cor: {r: 0.1, g: 0.35, b: 0.15, a: 1}
+  material: {fileID: 2100000, guid: b25248e5ebb0dd06c8b280322539cd2a, type: 2}
+  escala: 0.82
+  qtdInimigos: 5
+  retrato: {fileID: 0}
+  membros:
+  - nome: Sgt. Zakariel
+    classe: Comandante
+    papel: 1
+    modelo: {fileID: 919132149155446097, guid: 8ec61b5eb1e896bbeb9515de5210c5cb, type: 3}
+    hp: 10
+    mira: 74
+    danoMin: 4
+    danoMax: 6
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: "Irm\xE3o Cassiel"
+    classe: Bolter
+    papel: 0
+    modelo: {fileID: 919132149155446097, guid: 234119208607f3f7b98908cd489b58c6, type: 3}
+    hp: 9
+    mira: 70
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: "Irm\xE3o Nahum"
+    classe: Atirador
+    papel: 2
+    modelo: {fileID: 919132149155446097, guid: 95af669dfbf4eaf0fa3850f80cf8bcce, type: 3}
+    hp: 8
+    mira: 82
+    danoMin: 4
+    danoMax: 7
+    mobilidade: 5
+    escala: 1
+    giro: 0
+  - nome: "Irm\xE3o Ithiel"
+    classe: "Apotec\xE1rio"
+    papel: 3
+    modelo: {fileID: 919132149155446097, guid: 694ca8bedf97b3b97bd3245548f278c8, type: 3}
+    hp: 9
+    mira: 66
+    danoMin: 3
+    danoMax: 5
+    mobilidade: 6
+    escala: 1
+    giro: 0
+  - nome: "Irm\xE3o Gadriel"
+    classe: Bolter pesado
+    papel: 4
+    modelo: {fileID: 919132149155446097, guid: 2a00f36ed30970266ae9d9ab829559bf, type: 3}
+    hp: 10
+    mira: 66
+    danoMin: 4
+    danoMax: 6
+    mobilidade: 5
+    escala: 1
+    giro: 0
+  - nome: "Irm\xE3o Samiel"
+    classe: Espada-serra
+    papel: 5
+    modelo: {fileID: 919132149155446097, guid: a6ce4e2db79ba052d8881f24f9cf8fe1, type: 3}
+    hp: 9
+    mira: 68
+    danoMin: 3
+    danoMax: 6
+    mobilidade: 7
+    escala: 1
+    giro: 0

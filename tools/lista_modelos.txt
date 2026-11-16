@@ -1,0 +1,70 @@
+# origem (relativa à pasta de STLs extraídos) | destino em Assets/Models | modo | triângulos | deitado
+anjos/Commander.stl|Anjos/Comandante.obj|figura|12000|
+anjos/tactic_bolter.stl|Anjos/Bolter.obj|figura|12000|
+anjos/Tactic_plasma.stl|Anjos/Plasma.obj|figura|12000|
+anjos/heavy bolter.stl|Anjos/BolterPesado.obj|figura|12000|
+anjos/sniper.stl|Anjos/Atirador.obj|figura|12000|
+anjos/Chainsword.stl|Anjos/Espada.obj|figura|12000|
+vigilia/Deathwatch_Black_Templar.stl|Vigilia/TemplarioNegro.obj|figura|12000|
+vigilia/Deathwatch_Imperial_Fist.stl|Vigilia/PunhoImperial.obj|figura|12000|
+vigilia/Deathwatch_Red_Templar.stl|Vigilia/TemplarioVermelho.obj|figura|12000|
+vigilia/Deathwatch_Excoriator.stl|Vigilia/Excoriador.obj|figura|12000|
+vigilia/Deathwatch_Crimson_Fist.stl|Vigilia/PunhoCarmesim.obj|figura|12000|
+vigilia/Deathwatch_Sons_of_The_Phoenix.stl|Vigilia/FilhosDaFenix.obj|figura|12000|
+kroot/KT_KillBroker.stl|Kroot/KillBroker.obj|figura|12000|
+kroot/KT_Warrior.stl|Kroot/Warrior.obj|figura|12000|
+kroot/KT_LongSight.stl|Kroot/LongSight.obj|figura|12000|
+kroot/KT_ColdBlood.stl|Kroot/ColdBlood.obj|figura|12000|
+kroot/KT_Tracker.stl|Kroot/Tracker.obj|figura|12000|
+kroot/KT_Pistolier.stl|Kroot/Pistolier.obj|figura|12000|
+kroot/KT_Stalker.stl|Kroot/Stalker.obj|figura|12000|
+kroot/KT_BowHunter.stl|Kroot/BowHunter.obj|figura|12000|
+kroot/KT_CutSkin.stl|Kroot/CutSkin.obj|figura|12000|
+kroot/KT_HeavyGunner_Skinner.stl|Kroot/HeavyGunnerSkinner.obj|figura|12000|
+kroot/KT_HeavyGunner_Tribalest.stl|Kroot/HeavyGunnerTribalest.obj|figura|12000|
+ogros/Crabby_Chaotic_Ogre_v2.stl|Ogros/Crabby.obj|figura|14000|
+ogros/Ogre_1_Raw stl.stl|Ogros/Ogro1.obj|figura|14000|
+ogros/Ogre_2_raw stl.stl|Ogros/Ogro2.obj|figura|14000|
+ogros/Ogre_3_raw stl.stl|Ogros/Ogro3.obj|figura|14000|
+ogros/Chaos-Cultist-01_ver1.12.stl|Ogros/Cultista.obj|figura|12000|
+pox/BOSS_0.stl|Pox/Boss.obj|figura|12000|
+pox/FIGHTER_0.stl|Pox/Fighter.obj|figura|12000|
+pox/GUNNER 1_0.stl|Pox/Gunner1.obj|figura|12000|
+pox/GUNNER 2_0.stl|Pox/Gunner2.obj|figura|12000|
+pox/CRUSHA_0.stl|Pox/Crusha.obj|figura|12000|
+pox/DEMOLISHA_0.stl|Pox/Demolisha.obj|figura|12000|
+pox/BANNER_0.stl|Pox/Banner.obj|figura|9000|
+pox/ROKKIT RACK_0.stl|Pox/RokkitRack.obj|figura|9000|
+pox/BOMBSQUIG_1_0.stl|Pox/Bombsquig1.obj|figura|9000|
+pox/BOMBSQUIG_2_0.stl|Pox/Bombsquig2.obj|figura|9000|
+barr/Bulkhead Barricade 2.stl|Cenario/BarricadaBlindada.obj|cenario|6000|
+barr/Folding Barricade 3.stl|Cenario/BarricadaDobravel.obj|cenario|6000|
+tasar/Wall A1.stl|Cenario/MuroTasar.obj|cenario|6000|
+tasar/Tower.stl|Cenario/TorreTasar.obj|cenario|7000|
+kaitech/wall_magnet.stl|Cenario/MuroBunker.obj|cenario|5000|
+kaitech/Pillar_1_magnet.stl|Cenario/PilarBunker.obj|cenario|6000|
+kaitech/Crate.stl|Cenario/Caixote.obj|cenario|2000|
+kaitech/Big_Tank.stl|Cenario/Tanque.obj|cenario|2500|
+kaitech/bottom_small tank.stl|Cenario/TanquePequeno.obj|cenario|4000|
+kaitech/control_board.stl|Cenario/Painel.obj|cenario|2500|
+manu/manufactorum_wall_piece_1.stl|Cenario/ParedeFabrica1.obj|cenario|5000|-x
+manu/manufactorum_wall_piece_2.stl|Cenario/ParedeFabrica2.obj|cenario|5000|-x
+manu/manufactorum_wall_piece_3.stl|Cenario/ParedeFabrica3.obj|cenario|5000|-x
+manu/Column_H.stl|Cenario/ColunaFabrica.obj|cenario|4000|-x
+chamine/1.stl|Cenario/Chamine1.obj|cenario|9000|
+chamine/15.stl|Cenario/Chamine2.obj|cenario|9000|
+chamine/14.stl|Cenario/ChamineAlta.obj|cenario|9000|
+chamine/2.stl|Cenario/ChamineCone.obj|cenario|6000|
+chamine/11.stl|Cenario/Tubulacao.obj|cenario|6000|
+chamine/12.stl|Cenario/Valvula.obj|cenario|6000|
+chamine/6.stl|Cenario/CoroaGotica.obj|cenario|7000|
+gotico/Small_model_with_statue.stl|Cenario/CapelaPequena.obj|cenario|12000|
+gotico/Large_main_part_with_statue.stl|Cenario/CapelaGrande.obj|cenario|12000|
+hab/02e1070b-318f-4ef5-9e6b-f6d9586b6411.stl|Cenario/HabU1.obj|cenario|10000|
+hab/cbf222d6-7571-4840-9345-fb532ad57725.stl|Cenario/HabU2.obj|cenario|10000|
+hab/199ba8d6-fd7a-44d3-8898-e64c98b38ded.stl|Cenario/HabSala1.obj|cenario|10000|
+hab/43a95ca4-841b-4141-8e3f-05f28b7a8ef3.stl|Cenario/HabSala2.obj|cenario|10000|
+hab/c2d5a515-d5fa-45a7-82a5-65b424113e38.stl|Cenario/HabSala3.obj|cenario|10000|
+hab/cb5c6123-aa83-4777-b346-c98743beadca.stl|Cenario/HabSala4.obj|cenario|10000|
+hab/35ba1a9a-f30d-48da-9240-1983e1491e28.stl|Cenario/HabTorre1.obj|cenario|12000|
+hab/d9dbd5f7-b698-4d6c-9032-8c4ea28d1ab7.stl|Cenario/HabTorre2.obj|cenario|12000|

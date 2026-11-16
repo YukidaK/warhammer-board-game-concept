@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +11,7 @@ using UnityEngine.Rendering.Universal;
 
 // Monta tudo de forma automática: importa os modelos, cria os materiais, a cena da batalha e a build.
 // Uso: Unity -batchmode -executeMethod MontarJogo.Executar   (ou menu Kill Team > Montar cena)
-public static class MontarJogo
+public static partial class MontarJogo
 {
     static readonly string[] Azuis = { "Sergeant", "Trooper", "Sniper", "Medic_trooper" };
     static readonly string[] Vermelhos = { "Trooper", "Plasma", "Melta", "Volleygun", "Demo", "Recon", "Vox" };
@@ -21,6 +22,11 @@ public static class MontarJogo
         ConfigurarModelos();
         Directory.CreateDirectory("Assets/Materiais");
         Directory.CreateDirectory("Assets/Scenes");
+        Directory.CreateDirectory("Assets/Texturas");
+        Directory.CreateDirectory("Assets/Sprites");
+        Directory.CreateDirectory("Assets/Animacoes");
+        Directory.CreateDirectory("Assets/Prefabs");
+        var tex = GerarTexturas();
 
         var cena = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -67,41 +73,67 @@ public static class MontarJogo
         var jogoGo = new GameObject("Jogo");
         var jogo = jogoGo.AddComponent<Jogo>();
         var hud = jogoGo.AddComponent<Hud>();
+        jogo.pontos = jogoGo.AddComponent<Pontuacao>();
         jogo.cam = cam;
         jogo.camTatica = ct;
         jogo.hud = hud;
-        jogo.modelosAzuis = Azuis.Select(Modelo).ToArray();
-        jogo.modelosVermelhos = Vermelhos.Select(Modelo).ToArray();
 
         jogo.matAzul = Lit("Azul", new Color(0.16f, 0.36f, 0.85f), 0.35f, 0.55f);
         jogo.matVermelho = Lit("Vermelho", new Color(0.78f, 0.13f, 0.12f), 0.35f, 0.55f);
-        jogo.matBaseAzul = Lit("BaseAzul", new Color(0.08f, 0.15f, 0.35f), 0.2f, 0.4f);
-        jogo.matBaseVermelha = Lit("BaseVermelha", new Color(0.35f, 0.07f, 0.06f), 0.2f, 0.4f);
-        jogo.matChaoA = Lit("ChaoA", new Color(0.33f, 0.32f, 0.3f), 0f, 0.15f);
-        jogo.matChaoB = Lit("ChaoB", new Color(0.29f, 0.28f, 0.27f), 0f, 0.15f);
-        jogo.matTerreno = Lit("Terreno", new Color(0.2f, 0.19f, 0.17f), 0f, 0.05f);
-        jogo.matMuro = Lit("Muro", new Color(0.5f, 0.49f, 0.47f), 0f, 0.1f);
-        jogo.matCaixa = Lit("Caixa", new Color(0.45f, 0.33f, 0.18f), 0.1f, 0.25f);
-        jogo.matSaco = Lit("Saco", new Color(0.52f, 0.47f, 0.33f), 0f, 0.1f);
+        jogo.matBaseAzul = Lit("BaseAzul", new Color(0.3f, 0.45f, 0.85f), 0.5f, 0.45f, tex["Metal"]);
+        jogo.matBaseVermelha = Lit("BaseVermelha", new Color(0.85f, 0.3f, 0.25f), 0.5f, 0.45f, tex["Metal"]);
+        jogo.matChaoA = Lit("ChaoA", new Color(0.62f, 0.61f, 0.58f), 0f, 0.15f, tex["Concreto"]);
+        jogo.matChaoB = Lit("ChaoB", new Color(0.53f, 0.52f, 0.5f), 0f, 0.15f, tex["Concreto"], new Vector2(-1, 1));
+        jogo.matTerreno = Lit("Terreno", new Color(0.55f, 0.52f, 0.48f), 0f, 0.05f, tex["Terra"], new Vector2(14, 16));
+        jogo.matMuro = Lit("Muro", new Color(0.88f, 0.86f, 0.83f), 0f, 0.1f, tex["Pedra"]);
+        jogo.matCaixa = Lit("Caixa", Color.white, 0.05f, 0.25f, tex["Madeira"]);
+        jogo.matSaco = Lit("Saco", Color.white, 0f, 0.05f, tex["Saco"]);
+        var matRocha = Lit("Rocha", new Color(0.6f, 0.58f, 0.55f), 0f, 0.1f, tex["Rocha"]);
         jogo.matMover1 = Unlit("Mover1", new Color(0.2f, 0.55f, 1f, 0.26f));
         jogo.matMover2 = Unlit("Mover2", new Color(1f, 0.8f, 0.2f, 0.2f));
         jogo.matCursor = Unlit("Cursor", new Color(1f, 1f, 1f, 0.75f));
         jogo.matEscudo = Unlit("Escudo", new Color(0.35f, 0.75f, 1f, 0.85f));
         jogo.matAnel = Unlit("Anel", new Color(1f, 0.85f, 0.25f, 1f));
         jogo.matTraco = Unlit("Traco", new Color(1f, 0.9f, 0.45f, 1f));
+        var matHalo = Aditivo("Halo", "Universal Render Pipeline/Unlit", new Color(0.45f, 0.75f, 1f, 0.9f), tex["Brilho"]);
+        var matFaisca = Aditivo("Faisca", "Universal Render Pipeline/Particles/Unlit", Color.white, tex["Particula"]);
+        var matFumaca = Particula("Fumaca", tex["Particula"]);
+
+        // prefabs do cenário (BoxCollider + material texturizado)
+        jogo.prefCasa = PrefabBloco("Casa", jogo.matChaoA);
+        jogo.prefMuro = PrefabBloco("Muro", jogo.matMuro);
+        jogo.prefCaixa = PrefabBloco("Caixa", jogo.matCaixa);
+        jogo.prefSaco = PrefabBloco("SacoDeAreia", jogo.matSaco);
+        jogo.prefTerreno = PrefabBloco("Terreno", jogo.matTerreno);
+        jogo.prefPedra = PrefabBloco("Pedra", matRocha);
+        jogo.prefUnidade = PrefabUnidade(jogo.matBaseAzul);
+        jogo.prefFxDisparo = PrefabDisparo(matFaisca);
+        jogo.prefFxImpacto = PrefabImpacto(matFaisca, matFumaca);
+        jogo.prefProjetil = PrefabProjetil(jogo.matTraco, matFaisca);
+        jogo.prefExplosao = PrefabExplosao();
+        jogo.prefHalo = PrefabHalo(matHalo);
+
+        // times e cenários feitos com os modelos novos
+        jogo.equipes = CriarEquipes();
+        jogo.cenarios = CriarCenarios(tex, jogo);
 
         EditorSceneManager.SaveScene(cena, "Assets/Scenes/Batalha.unity");
         if (File.Exists("Assets/Scenes/SampleScene.unity")) AssetDatabase.DeleteAsset("Assets/Scenes/SampleScene.unity");
-        EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene("Assets/Scenes/Batalha.unity", true) };
+        MontarMenu(jogo.equipes, jogo.cenarios, tex);
+        EditorBuildSettings.scenes = new[]
+        {
+            new EditorBuildSettingsScene("Assets/Scenes/Menu.unity", true),
+            new EditorBuildSettingsScene("Assets/Scenes/Batalha.unity", true),
+        };
 
-        PlayerSettings.productName = "Harakoni Kill Team";
+        PlayerSettings.productName = "Kill Team Tático";
         PlayerSettings.companyName = "Vinicius";
         PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
         PlayerSettings.defaultScreenWidth = 1600;
         PlayerSettings.defaultScreenHeight = 900;
         PlayerSettings.resizableWindow = true;
         AssetDatabase.SaveAssets();
-        Debug.Log("[Montar] cena Batalha montada");
+        Debug.Log("[Montar] cenas Menu e Batalha montadas");
     }
 
     [MenuItem("Kill Team/Gerar build Linux")]
@@ -109,7 +141,7 @@ public static class MontarJogo
     {
         var r = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {
-            scenes = new[] { "Assets/Scenes/Batalha.unity" },
+            scenes = new[] { "Assets/Scenes/Menu.unity", "Assets/Scenes/Batalha.unity" },
             locationPathName = "Build/KillTeamTatico.x86_64",
             target = BuildTarget.StandaloneLinux64,
             options = BuildOptions.None
@@ -120,9 +152,10 @@ public static class MontarJogo
 
     static void ConfigurarModelos()
     {
-        foreach (var caminho in Directory.GetFiles("Assets/Models", "*.obj"))
+        foreach (var caminho in Directory.GetFiles("Assets/Models", "*.obj", SearchOption.AllDirectories))
         {
-            var imp = (ModelImporter)AssetImporter.GetAtPath(caminho);
+            var imp = (ModelImporter)AssetImporter.GetAtPath(caminho.Replace('\\', '/'));
+            if (imp == null) { AssetDatabase.ImportAsset(caminho); imp = (ModelImporter)AssetImporter.GetAtPath(caminho); }
             imp.globalScale = 1f;
             imp.useFileScale = false;
             imp.importNormals = ModelImporterNormals.Import;
@@ -147,10 +180,15 @@ public static class MontarJogo
 
     static GameObject Modelo(string nome) => AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Models/{nome}.obj");
 
-    static Material Lit(string nome, Color cor, float metal, float liso)
+    static Material Lit(string nome, Color cor, float metal, float liso, Texture2D textura = null, Vector2? tiling = null)
     {
         var m = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         m.SetColor("_BaseColor", cor);
+        if (textura != null)
+        {
+            m.SetTexture("_BaseMap", textura);
+            m.SetTextureScale("_BaseMap", tiling ?? Vector2.one);
+        }
         m.SetFloat("_Metallic", metal);
         m.SetFloat("_Smoothness", liso);
         return Salvar(m, nome);
